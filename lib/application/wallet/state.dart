@@ -1,9 +1,10 @@
-part of 'wallet.dart';
+import 'package:aewallet/domain/models/global_app.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 @immutable
 abstract class Session {
   const factory Session.loggedIn({
-    required AppWallet wallet,
+    required GlobalApp globalApp,
   }) = LoggedInSession;
 
   const factory Session.loggedOut() = LoggedOutSession;
@@ -16,10 +17,10 @@ abstract class Session {
 
 class LoggedInSession implements Session {
   const LoggedInSession({
-    required this.wallet,
+    required this.globalApp,
   });
 
-  final AppWallet wallet;
+  final GlobalApp globalApp;
 
   @override
   LoggedInSession? get loggedIn => this;

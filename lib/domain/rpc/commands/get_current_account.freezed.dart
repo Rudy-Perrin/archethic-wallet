@@ -104,8 +104,6 @@ abstract class $RPCGetCurrentAccountResultDataCopyWith<$Res> {
           RPCGetCurrentAccountResultData>;
   @useResult
   $Res call({AppAccount account});
-
-  $AppAccountCopyWith<$Res> get account;
 }
 
 /// @nodoc
@@ -122,22 +120,14 @@ class _$RPCGetCurrentAccountResultDataCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? account = null,
+    Object? account = freezed,
   }) {
     return _then(_value.copyWith(
-      account: null == account
+      account: freezed == account
           ? _value.account
           : account // ignore: cast_nullable_to_non_nullable
               as AppAccount,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AppAccountCopyWith<$Res> get account {
-    return $AppAccountCopyWith<$Res>(_value.account, (value) {
-      return _then(_value.copyWith(account: value) as $Val);
-    });
   }
 }
 
@@ -151,9 +141,6 @@ abstract class _$$RPCGetCurrentAccountResultDataImplCopyWith<$Res>
   @override
   @useResult
   $Res call({AppAccount account});
-
-  @override
-  $AppAccountCopyWith<$Res> get account;
 }
 
 /// @nodoc
@@ -169,10 +156,10 @@ class __$$RPCGetCurrentAccountResultDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? account = null,
+    Object? account = freezed,
   }) {
     return _then(_$RPCGetCurrentAccountResultDataImpl(
-      account: null == account
+      account: freezed == account
           ? _value.account
           : account // ignore: cast_nullable_to_non_nullable
               as AppAccount,
@@ -200,11 +187,12 @@ class _$RPCGetCurrentAccountResultDataImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RPCGetCurrentAccountResultDataImpl &&
-            (identical(other.account, account) || other.account == account));
+            const DeepCollectionEquality().equals(other.account, account));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, account);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(account));
 
   @JsonKey(ignore: true)
   @override

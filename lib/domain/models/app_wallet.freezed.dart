@@ -16,10 +16,12 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$AppWallet {
-  String get seed =>
-      throw _privateConstructorUsedError; // TODO(redddwarf03): Mutualize keychain infos
-  AppKeychain get appKeychain => throw _privateConstructorUsedError;
-  KeychainSecuredInfos get keychainSecuredInfos =>
+  NetworksSetting get walletNetwork => throw _privateConstructorUsedError;
+  String get walletSeed => throw _privateConstructorUsedError;
+  String get keychainLastAddress => throw _privateConstructorUsedError;
+  String get keychainSeed => throw _privateConstructorUsedError;
+  String get keychainVersion => throw _privateConstructorUsedError;
+  List<KeychainService?> get keychainServices =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -33,11 +35,12 @@ abstract class $AppWalletCopyWith<$Res> {
       _$AppWalletCopyWithImpl<$Res, AppWallet>;
   @useResult
   $Res call(
-      {String seed,
-      AppKeychain appKeychain,
-      KeychainSecuredInfos keychainSecuredInfos});
-
-  $KeychainSecuredInfosCopyWith<$Res> get keychainSecuredInfos;
+      {NetworksSetting walletNetwork,
+      String walletSeed,
+      String keychainLastAddress,
+      String keychainSeed,
+      String keychainVersion,
+      List<KeychainService?> keychainServices});
 }
 
 /// @nodoc
@@ -53,33 +56,39 @@ class _$AppWalletCopyWithImpl<$Res, $Val extends AppWallet>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? seed = null,
-    Object? appKeychain = null,
-    Object? keychainSecuredInfos = null,
+    Object? walletNetwork = null,
+    Object? walletSeed = null,
+    Object? keychainLastAddress = null,
+    Object? keychainSeed = null,
+    Object? keychainVersion = null,
+    Object? keychainServices = null,
   }) {
     return _then(_value.copyWith(
-      seed: null == seed
-          ? _value.seed
-          : seed // ignore: cast_nullable_to_non_nullable
+      walletNetwork: null == walletNetwork
+          ? _value.walletNetwork
+          : walletNetwork // ignore: cast_nullable_to_non_nullable
+              as NetworksSetting,
+      walletSeed: null == walletSeed
+          ? _value.walletSeed
+          : walletSeed // ignore: cast_nullable_to_non_nullable
               as String,
-      appKeychain: null == appKeychain
-          ? _value.appKeychain
-          : appKeychain // ignore: cast_nullable_to_non_nullable
-              as AppKeychain,
-      keychainSecuredInfos: null == keychainSecuredInfos
-          ? _value.keychainSecuredInfos
-          : keychainSecuredInfos // ignore: cast_nullable_to_non_nullable
-              as KeychainSecuredInfos,
+      keychainLastAddress: null == keychainLastAddress
+          ? _value.keychainLastAddress
+          : keychainLastAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      keychainSeed: null == keychainSeed
+          ? _value.keychainSeed
+          : keychainSeed // ignore: cast_nullable_to_non_nullable
+              as String,
+      keychainVersion: null == keychainVersion
+          ? _value.keychainVersion
+          : keychainVersion // ignore: cast_nullable_to_non_nullable
+              as String,
+      keychainServices: null == keychainServices
+          ? _value.keychainServices
+          : keychainServices // ignore: cast_nullable_to_non_nullable
+              as List<KeychainService?>,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $KeychainSecuredInfosCopyWith<$Res> get keychainSecuredInfos {
-    return $KeychainSecuredInfosCopyWith<$Res>(_value.keychainSecuredInfos,
-        (value) {
-      return _then(_value.copyWith(keychainSecuredInfos: value) as $Val);
-    });
   }
 }
 
@@ -92,12 +101,12 @@ abstract class _$$AppWalletImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String seed,
-      AppKeychain appKeychain,
-      KeychainSecuredInfos keychainSecuredInfos});
-
-  @override
-  $KeychainSecuredInfosCopyWith<$Res> get keychainSecuredInfos;
+      {NetworksSetting walletNetwork,
+      String walletSeed,
+      String keychainLastAddress,
+      String keychainSeed,
+      String keychainVersion,
+      List<KeychainService?> keychainServices});
 }
 
 /// @nodoc
@@ -111,23 +120,38 @@ class __$$AppWalletImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? seed = null,
-    Object? appKeychain = null,
-    Object? keychainSecuredInfos = null,
+    Object? walletNetwork = null,
+    Object? walletSeed = null,
+    Object? keychainLastAddress = null,
+    Object? keychainSeed = null,
+    Object? keychainVersion = null,
+    Object? keychainServices = null,
   }) {
     return _then(_$AppWalletImpl(
-      seed: null == seed
-          ? _value.seed
-          : seed // ignore: cast_nullable_to_non_nullable
+      walletNetwork: null == walletNetwork
+          ? _value.walletNetwork
+          : walletNetwork // ignore: cast_nullable_to_non_nullable
+              as NetworksSetting,
+      walletSeed: null == walletSeed
+          ? _value.walletSeed
+          : walletSeed // ignore: cast_nullable_to_non_nullable
               as String,
-      appKeychain: null == appKeychain
-          ? _value.appKeychain
-          : appKeychain // ignore: cast_nullable_to_non_nullable
-              as AppKeychain,
-      keychainSecuredInfos: null == keychainSecuredInfos
-          ? _value.keychainSecuredInfos
-          : keychainSecuredInfos // ignore: cast_nullable_to_non_nullable
-              as KeychainSecuredInfos,
+      keychainLastAddress: null == keychainLastAddress
+          ? _value.keychainLastAddress
+          : keychainLastAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      keychainSeed: null == keychainSeed
+          ? _value.keychainSeed
+          : keychainSeed // ignore: cast_nullable_to_non_nullable
+              as String,
+      keychainVersion: null == keychainVersion
+          ? _value.keychainVersion
+          : keychainVersion // ignore: cast_nullable_to_non_nullable
+              as String,
+      keychainServices: null == keychainServices
+          ? _value._keychainServices
+          : keychainServices // ignore: cast_nullable_to_non_nullable
+              as List<KeychainService?>,
     ));
   }
 }
@@ -136,22 +160,38 @@ class __$$AppWalletImplCopyWithImpl<$Res>
 
 class _$AppWalletImpl extends _AppWallet {
   const _$AppWalletImpl(
-      {required this.seed,
-      required this.appKeychain,
-      required this.keychainSecuredInfos})
-      : super._();
+      {required this.walletNetwork,
+      required this.walletSeed,
+      required this.keychainLastAddress,
+      required this.keychainSeed,
+      required this.keychainVersion,
+      final List<KeychainService?> keychainServices = const []})
+      : _keychainServices = keychainServices,
+        super._();
 
   @override
-  final String seed;
-// TODO(redddwarf03): Mutualize keychain infos
+  final NetworksSetting walletNetwork;
   @override
-  final AppKeychain appKeychain;
+  final String walletSeed;
   @override
-  final KeychainSecuredInfos keychainSecuredInfos;
+  final String keychainLastAddress;
+  @override
+  final String keychainSeed;
+  @override
+  final String keychainVersion;
+  final List<KeychainService?> _keychainServices;
+  @override
+  @JsonKey()
+  List<KeychainService?> get keychainServices {
+    if (_keychainServices is EqualUnmodifiableListView)
+      return _keychainServices;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_keychainServices);
+  }
 
   @override
   String toString() {
-    return 'AppWallet(seed: $seed, appKeychain: $appKeychain, keychainSecuredInfos: $keychainSecuredInfos)';
+    return 'AppWallet(walletNetwork: $walletNetwork, walletSeed: $walletSeed, keychainLastAddress: $keychainLastAddress, keychainSeed: $keychainSeed, keychainVersion: $keychainVersion, keychainServices: $keychainServices)';
   }
 
   @override
@@ -159,16 +199,29 @@ class _$AppWalletImpl extends _AppWallet {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AppWalletImpl &&
-            (identical(other.seed, seed) || other.seed == seed) &&
-            (identical(other.appKeychain, appKeychain) ||
-                other.appKeychain == appKeychain) &&
-            (identical(other.keychainSecuredInfos, keychainSecuredInfos) ||
-                other.keychainSecuredInfos == keychainSecuredInfos));
+            (identical(other.walletNetwork, walletNetwork) ||
+                other.walletNetwork == walletNetwork) &&
+            (identical(other.walletSeed, walletSeed) ||
+                other.walletSeed == walletSeed) &&
+            (identical(other.keychainLastAddress, keychainLastAddress) ||
+                other.keychainLastAddress == keychainLastAddress) &&
+            (identical(other.keychainSeed, keychainSeed) ||
+                other.keychainSeed == keychainSeed) &&
+            (identical(other.keychainVersion, keychainVersion) ||
+                other.keychainVersion == keychainVersion) &&
+            const DeepCollectionEquality()
+                .equals(other._keychainServices, _keychainServices));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, seed, appKeychain, keychainSecuredInfos);
+  int get hashCode => Object.hash(
+      runtimeType,
+      walletNetwork,
+      walletSeed,
+      keychainLastAddress,
+      keychainSeed,
+      keychainVersion,
+      const DeepCollectionEquality().hash(_keychainServices));
 
   @JsonKey(ignore: true)
   @override
@@ -179,18 +232,26 @@ class _$AppWalletImpl extends _AppWallet {
 
 abstract class _AppWallet extends AppWallet {
   const factory _AppWallet(
-          {required final String seed,
-          required final AppKeychain appKeychain,
-          required final KeychainSecuredInfos keychainSecuredInfos}) =
-      _$AppWalletImpl;
+      {required final NetworksSetting walletNetwork,
+      required final String walletSeed,
+      required final String keychainLastAddress,
+      required final String keychainSeed,
+      required final String keychainVersion,
+      final List<KeychainService?> keychainServices}) = _$AppWalletImpl;
   const _AppWallet._() : super._();
 
   @override
-  String get seed;
-  @override // TODO(redddwarf03): Mutualize keychain infos
-  AppKeychain get appKeychain;
+  NetworksSetting get walletNetwork;
   @override
-  KeychainSecuredInfos get keychainSecuredInfos;
+  String get walletSeed;
+  @override
+  String get keychainLastAddress;
+  @override
+  String get keychainSeed;
+  @override
+  String get keychainVersion;
+  @override
+  List<KeychainService?> get keychainServices;
   @override
   @JsonKey(ignore: true)
   _$$AppWalletImplCopyWith<_$AppWalletImpl> get copyWith =>

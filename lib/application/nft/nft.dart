@@ -3,9 +3,9 @@ import 'dart:developer' as dev;
 import 'dart:typed_data';
 
 import 'package:aewallet/model/blockchain/keychain_secured_infos.dart';
-import 'package:aewallet/model/blockchain/token_information.dart';
-import 'package:aewallet/model/data/account_token.dart';
-import 'package:aewallet/model/keychain_service_keypair.dart';
+import 'package:aewallet/domain/models/token_information.dart';
+import 'package:aewallet/domain/models/account_token.dart';
+import 'package:aewallet/model/blockchain/keychain_service_keypair.dart';
 import 'package:aewallet/service/app_service.dart';
 import 'package:aewallet/util/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';

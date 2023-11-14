@@ -8,7 +8,7 @@ import 'package:aewallet/application/wallet/wallet.dart';
 import 'package:aewallet/domain/repositories/account.dart';
 import 'package:aewallet/infrastructure/repositories/local_account.dart';
 import 'package:aewallet/model/data/account.dart';
-import 'package:aewallet/model/data/account_token.dart';
+import 'package:aewallet/domain/models/account_token.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

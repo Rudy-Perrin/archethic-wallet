@@ -1,4 +1,4 @@
-import 'package:aewallet/model/blockchain/keychain_secured_infos.dart';
+import 'package:aewallet/domain/models/app_wallet.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'secured_settings.freezed.dart';
@@ -6,12 +6,11 @@ part 'secured_settings.freezed.dart';
 @freezed
 class SecuredSettings with _$SecuredSettings {
   const factory SecuredSettings({
-    String? seed,
     String? pin,
     String? password,
     String? yubikeyClientID,
     String? yubikeyClientAPIKey,
-    KeychainSecuredInfos? keychainSecuredInfos,
+    GlobalApp? globalApp,
   }) = _SecuredSettings;
 
   const SecuredSettings._();

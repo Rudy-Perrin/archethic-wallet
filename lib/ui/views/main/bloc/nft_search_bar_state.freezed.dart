@@ -37,6 +37,8 @@ abstract class $NftSearchBarStateCopyWith<$Res> {
       bool loading,
       String error,
       TokenInformation? tokenInformation});
+
+  $TokenInformationCopyWith<$Res>? get tokenInformation;
 }
 
 /// @nodoc
@@ -76,6 +78,18 @@ class _$NftSearchBarStateCopyWithImpl<$Res, $Val extends NftSearchBarState>
               as TokenInformation?,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $TokenInformationCopyWith<$Res>? get tokenInformation {
+    if (_value.tokenInformation == null) {
+      return null;
+    }
+
+    return $TokenInformationCopyWith<$Res>(_value.tokenInformation!, (value) {
+      return _then(_value.copyWith(tokenInformation: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -91,6 +105,9 @@ abstract class _$$NftSearchBarStateImplCopyWith<$Res>
       bool loading,
       String error,
       TokenInformation? tokenInformation});
+
+  @override
+  $TokenInformationCopyWith<$Res>? get tokenInformation;
 }
 
 /// @nodoc

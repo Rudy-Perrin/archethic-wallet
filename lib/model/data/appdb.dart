@@ -4,14 +4,11 @@ import 'dart:developer';
 
 import 'package:aewallet/model/available_currency.dart';
 import 'package:aewallet/model/blockchain/recent_transaction.dart';
-import 'package:aewallet/model/blockchain/token_information.dart';
+import 'package:aewallet/domain/models/token_information.dart';
 import 'package:aewallet/model/data/access_recipient.dart';
-import 'package:aewallet/model/data/account.dart';
-import 'package:aewallet/model/data/account_balance.dart';
-import 'package:aewallet/model/data/account_token.dart';
+import 'package:aewallet/domain/models/account_token.dart';
 import 'package:aewallet/model/data/app_keychain.dart';
 import 'package:aewallet/model/data/contact.dart';
-import 'package:aewallet/model/data/hive_app_wallet_dto.dart';
 import 'package:aewallet/model/data/messenger/discussion.dart';
 import 'package:aewallet/model/data/messenger/message.dart';
 import 'package:aewallet/model/data/nft_infos_off_chain.dart';
@@ -30,7 +27,6 @@ class HiveTypeIds {
   static const account = 1;
   static const appKeychain = 3;
   static const appWallet = 4;
-  static const accountBalance = 5;
   static const recentTransactions = 6;
   static const price = 7;
   static const accountToken = 8;
@@ -47,7 +43,6 @@ class HiveTypeIds {
 
 class DBHelper {
   static const String contactsTable = 'contacts';
-  static const String appWalletTable = 'appWallet';
   static const String priceTable = 'price';
 
   static Future<void> setupDatabase() async {
@@ -60,9 +55,6 @@ class DBHelper {
 
     Hive
       ..registerAdapter(ContactAdapter())
-      ..registerAdapter(HiveAppWalletDTOAdapter())
-      ..registerAdapter(AccountBalanceAdapter())
-      ..registerAdapter(AccountAdapter())
       ..registerAdapter(AppKeychainAdapter())
       ..registerAdapter(RecentTransactionAdapter())
       ..registerAdapter(PriceAdapter())
@@ -241,105 +233,7 @@ class DBHelper {
     await box.clear();
   }
 
-  Future<List<Account>> getAccounts() async {
-    final box = await Hive.openBox<HiveAppWalletDTO>(appWalletTable);
-    final appWallet = box.get(0)!;
-    return appWallet.appKeychain.accounts;
-  }
-
-  Future<Account?> getAccount(String name) async {
-    final box = await Hive.openBox<HiveAppWalletDTO>(appWalletTable);
-    final appWallet = box.get(0)!;
-    for (final account in appWallet.appKeychain.accounts) {
-      if (account.name == name) return account;
-    }
-    return null;
-  }
-
-  Future<HiveAppWalletDTO> addAccount(Account account) async {
-    final box = await Hive.openBox<HiveAppWalletDTO>(appWalletTable);
-    final appWallet = box.get(0)!;
-    appWallet.appKeychain.accounts.add(account);
-    await box.putAt(0, appWallet);
-    return appWallet;
-  }
-
-  Future<HiveAppWalletDTO> clearAccount() async {
-    final box = await Hive.openBox<HiveAppWalletDTO>(appWalletTable);
-    final appWallet = box.get(0)!;
-    appWallet.appKeychain.accounts.clear();
-    await box.putAt(0, appWallet);
-    return appWallet;
-  }
-
-  Future<HiveAppWalletDTO> changeAccount(String accountName) async {
-    final box = await Hive.openBox<HiveAppWalletDTO>(appWalletTable);
-    final appWallet = box.get(0)!;
-    for (var i = 0; i < appWallet.appKeychain.accounts.length; i++) {
-      if (appWallet.appKeychain.accounts[i].name == accountName) {
-        appWallet.appKeychain.accounts[i].selected = true;
-      } else {
-        appWallet.appKeychain.accounts[i].selected = false;
-      }
-    }
-    await box.putAt(0, appWallet);
-    return appWallet;
-  }
-
-  Future<void> updateAccountBalance(
-    Account selectedAccount,
-    AccountBalance balance,
-  ) async {
-    final box = await Hive.openBox<HiveAppWalletDTO>(appWalletTable);
-    final appWallet = box.get(0)!;
-    final accounts = appWallet.appKeychain.accounts;
-    for (final account in accounts) {
-      if (selectedAccount.name == account.name) {
-        account.balance = balance;
-        await box.putAt(0, appWallet);
-        return;
-      }
-    }
-  }
-
-  Future<void> updateAccount(Account selectedAccount) async {
-    final box = await Hive.openBox<HiveAppWalletDTO>(appWalletTable);
-    final appWallet = box.get(0)!;
-    appWallet.appKeychain.accounts = appWallet.appKeychain.accounts.map(
-      (account) {
-        if (account.name == selectedAccount.name) return selectedAccount;
-        return account;
-      },
-    ).toList();
-    await box.putAt(0, appWallet);
-  }
-
-  Future<void> clearAppWallet() async {
-    final box = await Hive.openBox<HiveAppWalletDTO>(appWalletTable);
-    await box.clear();
-  }
-
-  Future<HiveAppWalletDTO> createAppWallet(String keyChainAddress) async {
-    final box = await Hive.openBox<HiveAppWalletDTO>(appWalletTable);
-    final appKeychain =
-        AppKeychain(address: keyChainAddress, accounts: <Account>[]);
-    final appWallet = HiveAppWalletDTO(appKeychain: appKeychain);
-    await box.add(appWallet);
-    return appWallet;
-  }
-
-  Future<HiveAppWalletDTO?> getAppWallet() async {
-    final box = await Hive.openBox<HiveAppWalletDTO>(appWalletTable);
-    return box.get(0);
-  }
-
-  Future<void> saveAppWallet(HiveAppWalletDTO wallet) async {
-    final box = await Hive.openBox<HiveAppWalletDTO>(appWalletTable);
-    return box.putAt(0, wallet);
-  }
-
   Future<void> clearAll() async {
-    await clearAppWallet();
     await clearContacts();
     await clearPrice();
   }

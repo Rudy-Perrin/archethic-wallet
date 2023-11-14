@@ -2,7 +2,7 @@ import 'package:aewallet/application/account/providers.dart';
 import 'package:aewallet/application/nft/nft.dart';
 import 'package:aewallet/application/settings/settings.dart';
 import 'package:aewallet/model/data/account.dart';
-import 'package:aewallet/model/data/account_token.dart';
+import 'package:aewallet/domain/models/account_token.dart';
 import 'package:aewallet/ui/themes/archethic_theme.dart';
 import 'package:aewallet/ui/themes/styles.dart';
 import 'package:aewallet/ui/util/dimens.dart';

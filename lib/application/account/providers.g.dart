@@ -73,7 +73,7 @@ class _GetAccountNFTFilteredFamily extends Family<List<AccountToken>> {
 
   /// See also [_getAccountNFTFiltered].
   _GetAccountNFTFilteredProvider call(
-    Account account,
+    InvalidType account,
     int categoryNftIndex, {
     bool? favorite,
   }) {
@@ -115,7 +115,7 @@ class _GetAccountNFTFilteredProvider
     extends AutoDisposeProvider<List<AccountToken>> {
   /// See also [_getAccountNFTFiltered].
   _GetAccountNFTFilteredProvider(
-    Account account,
+    InvalidType account,
     int categoryNftIndex, {
     bool? favorite,
   }) : this._internal(
@@ -151,7 +151,7 @@ class _GetAccountNFTFilteredProvider
     required this.favorite,
   }) : super.internal();
 
-  final Account account;
+  final InvalidType account;
   final int categoryNftIndex;
   final bool? favorite;
 
@@ -201,7 +201,7 @@ class _GetAccountNFTFilteredProvider
 
 mixin _GetAccountNFTFilteredRef on AutoDisposeProviderRef<List<AccountToken>> {
   /// The parameter `account` of this provider.
-  Account get account;
+  InvalidType get account;
 
   /// The parameter `categoryNftIndex` of this provider.
   int get categoryNftIndex;
@@ -216,7 +216,7 @@ class _GetAccountNFTFilteredProviderElement
   _GetAccountNFTFilteredProviderElement(super.provider);
 
   @override
-  Account get account => (origin as _GetAccountNFTFilteredProvider).account;
+  InvalidType get account => (origin as _GetAccountNFTFilteredProvider).account;
   @override
   int get categoryNftIndex =>
       (origin as _GetAccountNFTFilteredProvider).categoryNftIndex;

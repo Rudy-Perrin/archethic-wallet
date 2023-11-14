@@ -1,5 +1,5 @@
 import 'package:aewallet/application/nft/nft.dart';
-import 'package:aewallet/model/keychain_service_keypair.dart';
+import 'package:aewallet/model/blockchain/keychain_service_keypair.dart';
 import 'package:aewallet/ui/views/main/bloc/nft_search_bar_state.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';

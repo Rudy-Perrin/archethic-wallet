@@ -21,7 +21,7 @@ class ContactAdapter extends TypeAdapter<Contact> {
       address: fields[1] as String,
       type: fields[4] as String,
       publicKey: fields[5] == null ? '' : fields[5] as String,
-      balance: fields[7] as AccountBalance?,
+      balance: fields[7] as InvalidType,
       favorite: fields[6] as bool?,
     );
   }

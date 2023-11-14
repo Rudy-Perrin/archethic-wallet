@@ -16,8 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Transfer {
-  KeychainSecuredInfos get keychainSecuredInfos =>
-      throw _privateConstructorUsedError;
+  InvalidType get keychainSecuredInfos => throw _privateConstructorUsedError;
   String get transactionLastAddress => throw _privateConstructorUsedError;
   String get accountSelectedName => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
@@ -130,14 +129,13 @@ abstract class $TransferCopyWith<$Res> {
       _$TransferCopyWithImpl<$Res, Transfer>;
   @useResult
   $Res call(
-      {KeychainSecuredInfos keychainSecuredInfos,
+      {InvalidType keychainSecuredInfos,
       String transactionLastAddress,
       String accountSelectedName,
       String message,
       double amount,
       Address recipientAddress});
 
-  $KeychainSecuredInfosCopyWith<$Res> get keychainSecuredInfos;
   $AddressCopyWith<$Res> get recipientAddress;
 }
 
@@ -154,7 +152,7 @@ class _$TransferCopyWithImpl<$Res, $Val extends Transfer>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? keychainSecuredInfos = null,
+    Object? keychainSecuredInfos = freezed,
     Object? transactionLastAddress = null,
     Object? accountSelectedName = null,
     Object? message = null,
@@ -162,10 +160,10 @@ class _$TransferCopyWithImpl<$Res, $Val extends Transfer>
     Object? recipientAddress = null,
   }) {
     return _then(_value.copyWith(
-      keychainSecuredInfos: null == keychainSecuredInfos
+      keychainSecuredInfos: freezed == keychainSecuredInfos
           ? _value.keychainSecuredInfos
           : keychainSecuredInfos // ignore: cast_nullable_to_non_nullable
-              as KeychainSecuredInfos,
+              as InvalidType,
       transactionLastAddress: null == transactionLastAddress
           ? _value.transactionLastAddress
           : transactionLastAddress // ignore: cast_nullable_to_non_nullable
@@ -187,15 +185,6 @@ class _$TransferCopyWithImpl<$Res, $Val extends Transfer>
           : recipientAddress // ignore: cast_nullable_to_non_nullable
               as Address,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $KeychainSecuredInfosCopyWith<$Res> get keychainSecuredInfos {
-    return $KeychainSecuredInfosCopyWith<$Res>(_value.keychainSecuredInfos,
-        (value) {
-      return _then(_value.copyWith(keychainSecuredInfos: value) as $Val);
-    });
   }
 
   @override
@@ -224,8 +213,6 @@ abstract class _$$TransferUcoImplCopyWith<$Res>
       Address recipientAddress});
 
   @override
-  $KeychainSecuredInfosCopyWith<$Res> get keychainSecuredInfos;
-  @override
   $AddressCopyWith<$Res> get recipientAddress;
 }
 
@@ -240,7 +227,7 @@ class __$$TransferUcoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? keychainSecuredInfos = null,
+    Object? keychainSecuredInfos = freezed,
     Object? transactionLastAddress = null,
     Object? accountSelectedName = null,
     Object? message = null,
@@ -248,7 +235,7 @@ class __$$TransferUcoImplCopyWithImpl<$Res>
     Object? recipientAddress = null,
   }) {
     return _then(_$TransferUcoImpl(
-      keychainSecuredInfos: null == keychainSecuredInfos
+      keychainSecuredInfos: freezed == keychainSecuredInfos
           ? _value.keychainSecuredInfos
           : keychainSecuredInfos // ignore: cast_nullable_to_non_nullable
               as KeychainSecuredInfos,
@@ -312,8 +299,8 @@ class _$TransferUcoImpl extends _TransferUco {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransferUcoImpl &&
-            (identical(other.keychainSecuredInfos, keychainSecuredInfos) ||
-                other.keychainSecuredInfos == keychainSecuredInfos) &&
+            const DeepCollectionEquality()
+                .equals(other.keychainSecuredInfos, keychainSecuredInfos) &&
             (identical(other.transactionLastAddress, transactionLastAddress) ||
                 other.transactionLastAddress == transactionLastAddress) &&
             (identical(other.accountSelectedName, accountSelectedName) ||
@@ -327,7 +314,7 @@ class _$TransferUcoImpl extends _TransferUco {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      keychainSecuredInfos,
+      const DeepCollectionEquality().hash(keychainSecuredInfos),
       transactionLastAddress,
       accountSelectedName,
       message,
@@ -513,8 +500,6 @@ abstract class _$$TransferTokenImplCopyWith<$Res>
       List<int> aeip});
 
   @override
-  $KeychainSecuredInfosCopyWith<$Res> get keychainSecuredInfos;
-  @override
   $AddressCopyWith<$Res> get recipientAddress;
 }
 
@@ -529,7 +514,7 @@ class __$$TransferTokenImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? keychainSecuredInfos = null,
+    Object? keychainSecuredInfos = freezed,
     Object? transactionLastAddress = null,
     Object? accountSelectedName = null,
     Object? message = null,
@@ -542,7 +527,7 @@ class __$$TransferTokenImplCopyWithImpl<$Res>
     Object? aeip = null,
   }) {
     return _then(_$TransferTokenImpl(
-      keychainSecuredInfos: null == keychainSecuredInfos
+      keychainSecuredInfos: freezed == keychainSecuredInfos
           ? _value.keychainSecuredInfos
           : keychainSecuredInfos // ignore: cast_nullable_to_non_nullable
               as KeychainSecuredInfos,
@@ -654,8 +639,8 @@ class _$TransferTokenImpl extends _TransferToken {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransferTokenImpl &&
-            (identical(other.keychainSecuredInfos, keychainSecuredInfos) ||
-                other.keychainSecuredInfos == keychainSecuredInfos) &&
+            const DeepCollectionEquality()
+                .equals(other.keychainSecuredInfos, keychainSecuredInfos) &&
             (identical(other.transactionLastAddress, transactionLastAddress) ||
                 other.transactionLastAddress == transactionLastAddress) &&
             (identical(other.accountSelectedName, accountSelectedName) ||
@@ -676,7 +661,7 @@ class _$TransferTokenImpl extends _TransferToken {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      keychainSecuredInfos,
+      const DeepCollectionEquality().hash(keychainSecuredInfos),
       transactionLastAddress,
       accountSelectedName,
       message,

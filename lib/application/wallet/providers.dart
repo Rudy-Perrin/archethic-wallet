@@ -1,9 +1,28 @@
-part of 'wallet.dart';
+import 'dart:async';
+
+import 'package:aewallet/application/authentication/authentication.dart';
+import 'package:aewallet/application/connectivity_status.dart';
+import 'package:aewallet/application/contact.dart';
+import 'package:aewallet/application/notification/providers.dart';
+import 'package:aewallet/application/settings/settings.dart';
+import 'package:aewallet/application/wallet/state.dart';
+import 'package:aewallet/domain/models/app_wallet.dart';
+import 'package:aewallet/domain/models/global_app.dart';
+import 'package:aewallet/domain/repositories/features_flags.dart';
+import 'package:aewallet/infrastructure/datasources/hive_vault.dart';
+import 'package:aewallet/model/data/appdb.dart';
+import 'package:aewallet/model/data/hive_app_wallet_dto.dart';
+import 'package:aewallet/ui/views/messenger/bloc/providers.dart';
+import 'package:aewallet/util/cache_manager_hive.dart';
+import 'package:aewallet/util/get_it_instance.dart';
+import 'package:aewallet/util/keychain_util.dart';
+import 'package:aewallet/util/mnemonics.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 @Riverpod(keepAlive: true)
-class _SessionNotifier extends Notifier<Session> {
-  final DBHelper _dbHelper = sl.get<DBHelper>();
-
+class SessionNotifier extends Notifier<Session> {
   @override
   Session build() {
     return const Session.loggedOut();
@@ -11,27 +30,15 @@ class _SessionNotifier extends Notifier<Session> {
 
   Future<void> restore() async {
     final vault = await HiveVaultDatasource.getInstance();
+    final globalApp = vault.getGlobalApp();
 
-    final seed = vault.getSeed();
-    var keychainSecuredInfos = vault.getKeychainSecuredInfos();
-    if (keychainSecuredInfos == null && seed != null) {
-      // Create manually Keychain
-      final keychain = await sl.get<ApiService>().getKeychain(seed);
-      keychainSecuredInfos = keychain.toKeychainSecuredInfos();
-      await vault.setKeychainSecuredInfos(keychainSecuredInfos);
-    }
-    final appWalletDTO = await _dbHelper.getAppWallet();
-
-    if (seed == null || appWalletDTO == null) {
+    if (globalApp == null || globalApp.appWallets.isEmpty) {
       await logout();
       return;
     }
 
     state = Session.loggedIn(
-      wallet: appWalletDTO.toModel(
-        seed: seed,
-        keychainSecuredInfos: keychainSecuredInfos!,
-      ),
+      globalApp: globalApp,
     );
   }
 
@@ -44,22 +51,27 @@ class _SessionNotifier extends Notifier<Session> {
 
     final loggedInState = state.loggedIn!;
 
+    final appWallets = <String, AppWallet>{};
     try {
-      final keychain =
-          await sl.get<ApiService>().getKeychain(loggedInState.wallet.seed);
-
-      final keychainSecuredInfos = keychain.toKeychainSecuredInfos();
-
-      final vault = await HiveVaultDatasource.getInstance();
-      await vault.setKeychainSecuredInfos(keychainSecuredInfos);
-
-      final newWalletDTO = await KeychainUtil().getListAccountsFromKeychain(
-        keychain,
-        HiveAppWalletDTO.fromModel(loggedInState.wallet),
+      loggedInState.globalApp.appWallets.forEach((keychainAddress, appWallet) async {
+        final keychain = await sl.get<ApiService>().getKeychain(appWallet.walletSeed);
+          
+        appWallet = appWallet.copyWith(keychainLastAddress: keychainAddress, keychainSeed: uint8ListToHex(keychain.seed!), keychainVersion: keychain.version.toString(),
+      keychainServices: keychain.toKeychainServices(),  
       );
-      if (newWalletDTO == null) return;
+      
+        final newWalletDTO = await KeychainUtil().getListAccountsFromKeychain(
+          keychain,
+          HiveAppWalletDTO.fromModel(appWallet),
+        );
+        if (newWalletDTO != null) 
+        {
+
+        }
+      });
 
       state = Session.loggedIn(
+        globalApp: loggedInState.globalApp.copyWith(appWallets: )
         wallet: loggedInState.wallet.copyWith(
           keychainSecuredInfos: keychainSecuredInfos,
           appKeychain: newWalletDTO.appKeychain,
@@ -105,11 +117,14 @@ class _SessionNotifier extends Notifier<Session> {
     final vault = await HiveVaultDatasource.getInstance();
     await vault.setKeychainSecuredInfos(keychainSecuredInfos);
 
+    final appWallet = newAppWalletDTO.toModel(
+      seed: seed,
+      keychainSecuredInfos: keychainSecuredInfos,
+    );
+    final globalApp = GlobalApp(appWallets: {seed: appWallet});
+
     state = Session.loggedIn(
-      wallet: newAppWalletDTO.toModel(
-        seed: seed,
-        keychainSecuredInfos: keychainSecuredInfos,
-      ),
+      globalApp: globalApp,
     );
   }
 
@@ -143,11 +158,17 @@ class _SessionNotifier extends Notifier<Session> {
 
       await vault.setKeychainSecuredInfos(keychainSecuredInfos);
 
+      final globalApp = GlobalApp(
+        appWallets: {
+          seed: appWallet.toModel(
+            seed: seed,
+            keychainSecuredInfos: keychainSecuredInfos,
+          ),
+        },
+      );
+
       return state = LoggedInSession(
-        wallet: appWallet.toModel(
-          seed: seed,
-          keychainSecuredInfos: keychainSecuredInfos,
-        ),
+        globalApp: globalApp,
       );
     } catch (e) {
       return null;

@@ -4,7 +4,7 @@ import 'package:aewallet/domain/repositories/fungible_tokens_remote.dart';
 import 'package:aewallet/domain/repositories/transaction_local.dart';
 import 'package:aewallet/domain/repositories/transaction_remote.dart';
 import 'package:aewallet/domain/usecases/read_usecases.dart';
-import 'package:aewallet/model/data/account_token.dart';
+import 'package:aewallet/domain/models/account_token.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable

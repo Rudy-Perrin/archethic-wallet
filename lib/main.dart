@@ -10,7 +10,7 @@ import 'package:aewallet/application/notification/providers.dart';
 import 'package:aewallet/application/oracle/provider.dart';
 import 'package:aewallet/application/settings/language.dart';
 import 'package:aewallet/application/settings/settings.dart';
-import 'package:aewallet/application/wallet/wallet.dart';
+import 'package:aewallet/application/wallet/providers.dart';
 import 'package:aewallet/domain/repositories/features_flags.dart';
 import 'package:aewallet/domain/repositories/settings.dart';
 import 'package:aewallet/infrastructure/datasources/hive_vault.dart';
@@ -391,7 +391,6 @@ class SplashState extends ConsumerState<Splash> with WidgetsBindingObserver {
 
       if (FeatureFlags.forceLogout) {
         await (await HiveVaultDatasource.getInstance()).clearAll();
-        await sl.get<DBHelper>().clearAppWallet();
         _goToIntroScreen();
         return;
       }

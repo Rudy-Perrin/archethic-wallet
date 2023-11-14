@@ -16,13 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SecuredSettings {
-  String? get seed => throw _privateConstructorUsedError;
   String? get pin => throw _privateConstructorUsedError;
   String? get password => throw _privateConstructorUsedError;
   String? get yubikeyClientID => throw _privateConstructorUsedError;
   String? get yubikeyClientAPIKey => throw _privateConstructorUsedError;
-  KeychainSecuredInfos? get keychainSecuredInfos =>
-      throw _privateConstructorUsedError;
+  GlobalApp? get globalApp => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SecuredSettingsCopyWith<SecuredSettings> get copyWith =>
@@ -36,14 +34,11 @@ abstract class $SecuredSettingsCopyWith<$Res> {
       _$SecuredSettingsCopyWithImpl<$Res, SecuredSettings>;
   @useResult
   $Res call(
-      {String? seed,
-      String? pin,
+      {String? pin,
       String? password,
       String? yubikeyClientID,
       String? yubikeyClientAPIKey,
-      KeychainSecuredInfos? keychainSecuredInfos});
-
-  $KeychainSecuredInfosCopyWith<$Res>? get keychainSecuredInfos;
+      GlobalApp? globalApp});
 }
 
 /// @nodoc
@@ -59,18 +54,13 @@ class _$SecuredSettingsCopyWithImpl<$Res, $Val extends SecuredSettings>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? seed = freezed,
     Object? pin = freezed,
     Object? password = freezed,
     Object? yubikeyClientID = freezed,
     Object? yubikeyClientAPIKey = freezed,
-    Object? keychainSecuredInfos = freezed,
+    Object? globalApp = freezed,
   }) {
     return _then(_value.copyWith(
-      seed: freezed == seed
-          ? _value.seed
-          : seed // ignore: cast_nullable_to_non_nullable
-              as String?,
       pin: freezed == pin
           ? _value.pin
           : pin // ignore: cast_nullable_to_non_nullable
@@ -87,24 +77,11 @@ class _$SecuredSettingsCopyWithImpl<$Res, $Val extends SecuredSettings>
           ? _value.yubikeyClientAPIKey
           : yubikeyClientAPIKey // ignore: cast_nullable_to_non_nullable
               as String?,
-      keychainSecuredInfos: freezed == keychainSecuredInfos
-          ? _value.keychainSecuredInfos
-          : keychainSecuredInfos // ignore: cast_nullable_to_non_nullable
-              as KeychainSecuredInfos?,
+      globalApp: freezed == globalApp
+          ? _value.globalApp
+          : globalApp // ignore: cast_nullable_to_non_nullable
+              as GlobalApp?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $KeychainSecuredInfosCopyWith<$Res>? get keychainSecuredInfos {
-    if (_value.keychainSecuredInfos == null) {
-      return null;
-    }
-
-    return $KeychainSecuredInfosCopyWith<$Res>(_value.keychainSecuredInfos!,
-        (value) {
-      return _then(_value.copyWith(keychainSecuredInfos: value) as $Val);
-    });
   }
 }
 
@@ -117,15 +94,11 @@ abstract class _$$SecuredSettingsImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? seed,
-      String? pin,
+      {String? pin,
       String? password,
       String? yubikeyClientID,
       String? yubikeyClientAPIKey,
-      KeychainSecuredInfos? keychainSecuredInfos});
-
-  @override
-  $KeychainSecuredInfosCopyWith<$Res>? get keychainSecuredInfos;
+      GlobalApp? globalApp});
 }
 
 /// @nodoc
@@ -139,18 +112,13 @@ class __$$SecuredSettingsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? seed = freezed,
     Object? pin = freezed,
     Object? password = freezed,
     Object? yubikeyClientID = freezed,
     Object? yubikeyClientAPIKey = freezed,
-    Object? keychainSecuredInfos = freezed,
+    Object? globalApp = freezed,
   }) {
     return _then(_$SecuredSettingsImpl(
-      seed: freezed == seed
-          ? _value.seed
-          : seed // ignore: cast_nullable_to_non_nullable
-              as String?,
       pin: freezed == pin
           ? _value.pin
           : pin // ignore: cast_nullable_to_non_nullable
@@ -167,10 +135,10 @@ class __$$SecuredSettingsImplCopyWithImpl<$Res>
           ? _value.yubikeyClientAPIKey
           : yubikeyClientAPIKey // ignore: cast_nullable_to_non_nullable
               as String?,
-      keychainSecuredInfos: freezed == keychainSecuredInfos
-          ? _value.keychainSecuredInfos
-          : keychainSecuredInfos // ignore: cast_nullable_to_non_nullable
-              as KeychainSecuredInfos?,
+      globalApp: freezed == globalApp
+          ? _value.globalApp
+          : globalApp // ignore: cast_nullable_to_non_nullable
+              as GlobalApp?,
     ));
   }
 }
@@ -179,16 +147,13 @@ class __$$SecuredSettingsImplCopyWithImpl<$Res>
 
 class _$SecuredSettingsImpl extends _SecuredSettings {
   const _$SecuredSettingsImpl(
-      {this.seed,
-      this.pin,
+      {this.pin,
       this.password,
       this.yubikeyClientID,
       this.yubikeyClientAPIKey,
-      this.keychainSecuredInfos})
+      this.globalApp})
       : super._();
 
-  @override
-  final String? seed;
   @override
   final String? pin;
   @override
@@ -198,11 +163,11 @@ class _$SecuredSettingsImpl extends _SecuredSettings {
   @override
   final String? yubikeyClientAPIKey;
   @override
-  final KeychainSecuredInfos? keychainSecuredInfos;
+  final GlobalApp? globalApp;
 
   @override
   String toString() {
-    return 'SecuredSettings(seed: $seed, pin: $pin, password: $password, yubikeyClientID: $yubikeyClientID, yubikeyClientAPIKey: $yubikeyClientAPIKey, keychainSecuredInfos: $keychainSecuredInfos)';
+    return 'SecuredSettings(pin: $pin, password: $password, yubikeyClientID: $yubikeyClientID, yubikeyClientAPIKey: $yubikeyClientAPIKey, globalApp: $globalApp)';
   }
 
   @override
@@ -210,7 +175,6 @@ class _$SecuredSettingsImpl extends _SecuredSettings {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SecuredSettingsImpl &&
-            (identical(other.seed, seed) || other.seed == seed) &&
             (identical(other.pin, pin) || other.pin == pin) &&
             (identical(other.password, password) ||
                 other.password == password) &&
@@ -218,13 +182,12 @@ class _$SecuredSettingsImpl extends _SecuredSettings {
                 other.yubikeyClientID == yubikeyClientID) &&
             (identical(other.yubikeyClientAPIKey, yubikeyClientAPIKey) ||
                 other.yubikeyClientAPIKey == yubikeyClientAPIKey) &&
-            (identical(other.keychainSecuredInfos, keychainSecuredInfos) ||
-                other.keychainSecuredInfos == keychainSecuredInfos));
+            const DeepCollectionEquality().equals(other.globalApp, globalApp));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, seed, pin, password,
-      yubikeyClientID, yubikeyClientAPIKey, keychainSecuredInfos);
+  int get hashCode => Object.hash(runtimeType, pin, password, yubikeyClientID,
+      yubikeyClientAPIKey, const DeepCollectionEquality().hash(globalApp));
 
   @JsonKey(ignore: true)
   @override
@@ -236,17 +199,13 @@ class _$SecuredSettingsImpl extends _SecuredSettings {
 
 abstract class _SecuredSettings extends SecuredSettings {
   const factory _SecuredSettings(
-          {final String? seed,
-          final String? pin,
-          final String? password,
-          final String? yubikeyClientID,
-          final String? yubikeyClientAPIKey,
-          final KeychainSecuredInfos? keychainSecuredInfos}) =
-      _$SecuredSettingsImpl;
+      {final String? pin,
+      final String? password,
+      final String? yubikeyClientID,
+      final String? yubikeyClientAPIKey,
+      final GlobalApp? globalApp}) = _$SecuredSettingsImpl;
   const _SecuredSettings._() : super._();
 
-  @override
-  String? get seed;
   @override
   String? get pin;
   @override
@@ -256,7 +215,7 @@ abstract class _SecuredSettings extends SecuredSettings {
   @override
   String? get yubikeyClientAPIKey;
   @override
-  KeychainSecuredInfos? get keychainSecuredInfos;
+  GlobalApp? get globalApp;
   @override
   @JsonKey(ignore: true)
   _$$SecuredSettingsImplCopyWith<_$SecuredSettingsImpl> get copyWith =>

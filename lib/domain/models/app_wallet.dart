@@ -1,5 +1,5 @@
-import 'package:aewallet/model/blockchain/keychain_secured_infos.dart';
-import 'package:aewallet/model/data/app_keychain.dart';
+import 'package:aewallet/model/available_networks.dart';
+import 'package:aewallet/model/blockchain/keychain_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'app_wallet.freezed.dart';
@@ -7,10 +7,12 @@ part 'app_wallet.freezed.dart';
 @freezed
 class AppWallet with _$AppWallet {
   const factory AppWallet({
-    required String seed,
-    // TODO(redddwarf03): Mutualize keychain infos
-    required AppKeychain appKeychain,
-    required KeychainSecuredInfos keychainSecuredInfos,
+    required NetworksSetting walletNetwork,
+    required String walletSeed,
+    required String keychainLastAddress,
+    required String keychainSeed,
+    required String keychainVersion,
+    @Default([]) List<KeychainService?> keychainServices,
   }) = _AppWallet;
 
   const AppWallet._();

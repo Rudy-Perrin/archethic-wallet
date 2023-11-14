@@ -17,7 +17,7 @@ class HiveAppWalletDTOAdapter extends TypeAdapter<HiveAppWalletDTO> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return HiveAppWalletDTO(
-      appKeychain: fields[1] as AppKeychain,
+      appKeychain: fields[1] as InvalidType,
     );
   }
 

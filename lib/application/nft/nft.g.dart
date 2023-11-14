@@ -367,7 +367,7 @@ class _GetNFTListFamily
   _GetNFTListProvider call(
     String address,
     String nameAccount,
-    KeychainSecuredInfos keychainSecuredInfos,
+    InvalidType keychainSecuredInfos,
   ) {
     return _GetNFTListProvider(
       address,
@@ -409,7 +409,7 @@ class _GetNFTListProvider extends AutoDisposeFutureProvider<
   _GetNFTListProvider(
     String address,
     String nameAccount,
-    KeychainSecuredInfos keychainSecuredInfos,
+    InvalidType keychainSecuredInfos,
   ) : this._internal(
           (ref) => _getNFTList(
             ref as _GetNFTListRef,
@@ -445,7 +445,7 @@ class _GetNFTListProvider extends AutoDisposeFutureProvider<
 
   final String address;
   final String nameAccount;
-  final KeychainSecuredInfos keychainSecuredInfos;
+  final InvalidType keychainSecuredInfos;
 
   @override
   Override overrideWith(
@@ -503,7 +503,7 @@ mixin _GetNFTListRef
   String get nameAccount;
 
   /// The parameter `keychainSecuredInfos` of this provider.
-  KeychainSecuredInfos get keychainSecuredInfos;
+  InvalidType get keychainSecuredInfos;
 }
 
 class _GetNFTListProviderElement extends AutoDisposeFutureProviderElement<
@@ -515,7 +515,7 @@ class _GetNFTListProviderElement extends AutoDisposeFutureProviderElement<
   @override
   String get nameAccount => (origin as _GetNFTListProvider).nameAccount;
   @override
-  KeychainSecuredInfos get keychainSecuredInfos =>
+  InvalidType get keychainSecuredInfos =>
       (origin as _GetNFTListProvider).keychainSecuredInfos;
 }
 // ignore_for_file: type=lint

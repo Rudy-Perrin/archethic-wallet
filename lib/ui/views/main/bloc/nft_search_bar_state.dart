@@ -1,4 +1,4 @@
-import 'package:aewallet/model/blockchain/token_information.dart';
+import 'package:aewallet/domain/models/token_information.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'nft_search_bar_state.freezed.dart';

@@ -1,10 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-
-import 'dart:convert';
-
-// Package imports:
+import 'package:aewallet/domain/models/global_app.dart';
 import 'package:aewallet/infrastructure/datasources/secured_datasource_mixin.dart';
-import 'package:aewallet/model/blockchain/keychain_secured_infos.dart';
+import 'package:aewallet/model/blockchain/keychain_service.dart';
 import 'package:aewallet/model/data/secured_settings.dart';
 import 'package:hive/hive.dart';
 
@@ -23,6 +20,7 @@ class HiveVaultDatasource with SecuredHiveMixin {
       'archethic_wallet_yubikeyClientAPIKey';
   static const String _keychainSecuredInfos =
       'archethic_keychain_secured_infos';
+  static const String _globalApp = 'archethic_global_app';
 
   // This doesn't have to be a singleton.
   // We just want to make sure that the box is open, before we start getting/setting objects on it
@@ -37,10 +35,6 @@ class HiveVaultDatasource with SecuredHiveMixin {
   Future<void> _setValue<T>(dynamic key, T value) => _box.put(key, value);
 
   Future<void> _removeValue<T>(dynamic key) => _box.delete(key);
-
-  Future<void> setSeed(String v) => _setValue(_seed, v);
-
-  String? getSeed() => _getValue(_seed);
 
   Future<void> deleteSeed() async {
     return _removeValue(_seed);
@@ -72,26 +66,16 @@ class HiveVaultDatasource with SecuredHiveMixin {
 
   String getYubikeyClientID() => _getValue(_yubikeyClientID, defaultValue: '');
 
-  Future<void> setKeychainSecuredInfos(
-    KeychainSecuredInfos v,
-  ) {
-    try {
-      return _setValue(
-        _keychainSecuredInfos,
-        json.encode(v),
-      );
-    } catch (e) {
-      throw Exception(e);
-    }
+  Future<void> deleteKeychainSecuredInfos() async {
+    return _removeValue(_keychainSecuredInfos);
   }
 
-  KeychainSecuredInfos? getKeychainSecuredInfos() {
-    try {
-      final map = json.decode(_getValue(_keychainSecuredInfos));
-      return KeychainSecuredInfos.fromJson(map);
-    } catch (e) {
-      return null;
-    }
+  Future<void> setGlobalApp(GlobalApp v) => _setValue(_globalApp, v);
+
+  GlobalApp? getGlobalApp() => _getValue(_globalApp);
+
+  Future<void> deleteGlobalApp() async {
+    return _removeValue(_globalApp);
   }
 
   Future<void> clearAll() async {
@@ -99,11 +83,113 @@ class HiveVaultDatasource with SecuredHiveMixin {
   }
 
   SecuredSettings toModel() => SecuredSettings(
-        seed: getSeed(),
         password: getPassword(),
         pin: getPin(),
         yubikeyClientAPIKey: getYubikeyClientAPIKey(),
         yubikeyClientID: getYubikeyClientID(),
-        keychainSecuredInfos: getKeychainSecuredInfos(),
+        globalApp: getGlobalApp(),
       );
+
+  Future<List<KeychainService>> getKeychainServices(
+      String keychainAddress) async {
+    return getGlobalApp()!.appWallets[keychainAddress]!.keychainServices;
+  }
+
+  Future<KeychainService?> getKeychainService(
+      String keychainAddress, String name) async {
+    for (final service
+        in getGlobalApp()!.appWallets[keychainAddress]!.keychainServices) {
+      if (service.name == name) return service;
+    }
+    return null;
+  }
+
+  Future<void> addKeychainService(
+      String keychainAddress, KeychainService keychainService) async {
+    await setGlobalApp(
+      getGlobalApp()!
+        ..appWallets[keychainAddress]!.keychainServices.add(keychainService),
+    );
+  }
+
+  Future<void> clearKeychainServices(String keychainAddress) async {
+    await setGlobalApp(
+      getGlobalApp()!..appWallets[keychainAddress]!.keychainServices.clear(),
+    );
+  }
+
+  Future<void> changeService(
+    String keychainAddress,
+    String keychainServiceName,
+  ) async {
+    for (var i = 0;
+        i <
+            getGlobalApp()!
+                .appWallets[keychainAddress]!
+                .keychainServices
+                .length;
+        i++) {
+      if (getGlobalApp()!
+              .appWallets[keychainAddress]!
+              .keychainServices[i]
+              .name ==
+          keychainServiceName) {
+        getGlobalApp()!
+            .appWallets[keychainAddress]!
+            .keychainServices[i]
+            .accountSelected = true;
+      } else {
+        getGlobalApp()!
+            .appWallets[keychainAddress]!
+            .keychainServices[i]
+            .accountSelected = false;
+      }
+    }
+    await setGlobalApp(
+      getGlobalApp()!..appWallets[keychainAddress]!.keychainServices,
+    );
+  }
+
+  Future<void> updateAccountBalance(
+    String keychainAddress,
+    KeychainService selectedService,
+    double? accountBalanceNativeTokenValue,
+    String? accountBalanceNativeTokenName,
+    int? accountBalanceTokensFungiblesNb,
+    int? accountBalanceNftNb,
+  ) async {
+    for (final keychainService
+        in getGlobalApp()!.appWallets[keychainAddress]!.keychainServices) {
+      if (selectedService.name == keychainService.name) {
+        keychainService.accountBalanceNativeTokenValue =
+            accountBalanceNativeTokenValue;
+        keychainService.accountBalanceNativeTokenName =
+            accountBalanceNativeTokenName;
+        keychainService.accountBalanceTokensFungiblesNb =
+            accountBalanceTokensFungiblesNb;
+        keychainService.accountBalanceNftNb = accountBalanceNftNb;
+        await setGlobalApp(
+          getGlobalApp()!..appWallets[keychainAddress]!.keychainServices,
+        );
+        return;
+      }
+    }
+  }
+
+  Future<void> updateAccount(
+    String keychainAddress,
+    KeychainService selectedKeychainService,
+  ) async {
+    getGlobalApp()!.appWallets[keychainAddress]!.keychainServices =
+        getGlobalApp()!.appWallets[keychainAddress]!.keychainServices.map(
+      (keychainService) {
+        if (keychainService.name == selectedKeychainService.name)
+          return selectedKeychainService;
+        return keychainService;
+      },
+    ).toList();
+    await setGlobalApp(
+      getGlobalApp()!..appWallets[keychainAddress]!.keychainServices,
+    );
+  }
 }

@@ -57,13 +57,13 @@ class _$SendTransactionCommandCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? senderAccount = null,
+    Object? senderAccount = freezed,
     Object? data = null,
     Object? type = null,
     Object? version = null,
   }) {
     return _then(_value.copyWith(
-      senderAccount: null == senderAccount
+      senderAccount: freezed == senderAccount
           ? _value.senderAccount
           : senderAccount // ignore: cast_nullable_to_non_nullable
               as Account,
@@ -119,13 +119,13 @@ class __$$SendTransactionCommandImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? senderAccount = null,
+    Object? senderAccount = freezed,
     Object? data = null,
     Object? type = null,
     Object? version = null,
   }) {
     return _then(_$SendTransactionCommandImpl(
-      senderAccount: null == senderAccount
+      senderAccount: freezed == senderAccount
           ? _value.senderAccount
           : senderAccount // ignore: cast_nullable_to_non_nullable
               as Account,
@@ -180,16 +180,16 @@ class _$SendTransactionCommandImpl extends _SendTransactionCommand {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SendTransactionCommandImpl &&
-            (identical(other.senderAccount, senderAccount) ||
-                other.senderAccount == senderAccount) &&
+            const DeepCollectionEquality()
+                .equals(other.senderAccount, senderAccount) &&
             (identical(other.data, data) || other.data == data) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.version, version) || other.version == version));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, senderAccount, data, type, version);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(senderAccount), data, type, version);
 
   @JsonKey(ignore: true)
   @override

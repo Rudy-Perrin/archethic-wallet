@@ -63,6 +63,7 @@ abstract class $TransferFormStateCopyWith<$Res> {
       String errorMessageText});
 
   $TransferRecipientCopyWith<$Res> get recipient;
+  $AccountTokenCopyWith<$Res>? get accountToken;
 }
 
 /// @nodoc
@@ -84,7 +85,7 @@ class _$TransferFormStateCopyWithImpl<$Res, $Val extends TransferFormState>
     Object? defineMaxAmountInProgress = null,
     Object? amount = null,
     Object? amountConverted = null,
-    Object? accountBalance = null,
+    Object? accountBalance = freezed,
     Object? recipient = null,
     Object? accountToken = freezed,
     Object? tokenId = null,
@@ -118,7 +119,7 @@ class _$TransferFormStateCopyWithImpl<$Res, $Val extends TransferFormState>
           ? _value.amountConverted
           : amountConverted // ignore: cast_nullable_to_non_nullable
               as double,
-      accountBalance: null == accountBalance
+      accountBalance: freezed == accountBalance
           ? _value.accountBalance
           : accountBalance // ignore: cast_nullable_to_non_nullable
               as AccountBalance,
@@ -160,6 +161,18 @@ class _$TransferFormStateCopyWithImpl<$Res, $Val extends TransferFormState>
       return _then(_value.copyWith(recipient: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AccountTokenCopyWith<$Res>? get accountToken {
+    if (_value.accountToken == null) {
+      return null;
+    }
+
+    return $AccountTokenCopyWith<$Res>(_value.accountToken!, (value) {
+      return _then(_value.copyWith(accountToken: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -188,6 +201,8 @@ abstract class _$$TransferFormStateImplCopyWith<$Res>
 
   @override
   $TransferRecipientCopyWith<$Res> get recipient;
+  @override
+  $AccountTokenCopyWith<$Res>? get accountToken;
 }
 
 /// @nodoc
@@ -207,7 +222,7 @@ class __$$TransferFormStateImplCopyWithImpl<$Res>
     Object? defineMaxAmountInProgress = null,
     Object? amount = null,
     Object? amountConverted = null,
-    Object? accountBalance = null,
+    Object? accountBalance = freezed,
     Object? recipient = null,
     Object? accountToken = freezed,
     Object? tokenId = null,
@@ -241,7 +256,7 @@ class __$$TransferFormStateImplCopyWithImpl<$Res>
           ? _value.amountConverted
           : amountConverted // ignore: cast_nullable_to_non_nullable
               as double,
-      accountBalance: null == accountBalance
+      accountBalance: freezed == accountBalance
           ? _value.accountBalance
           : accountBalance // ignore: cast_nullable_to_non_nullable
               as AccountBalance,
@@ -362,8 +377,8 @@ class _$TransferFormStateImpl extends _TransferFormState {
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.amountConverted, amountConverted) ||
                 other.amountConverted == amountConverted) &&
-            (identical(other.accountBalance, accountBalance) ||
-                other.accountBalance == accountBalance) &&
+            const DeepCollectionEquality()
+                .equals(other.accountBalance, accountBalance) &&
             (identical(other.recipient, recipient) ||
                 other.recipient == recipient) &&
             (identical(other.accountToken, accountToken) ||
@@ -387,7 +402,7 @@ class _$TransferFormStateImpl extends _TransferFormState {
       defineMaxAmountInProgress,
       amount,
       amountConverted,
-      accountBalance,
+      const DeepCollectionEquality().hash(accountBalance),
       recipient,
       accountToken,
       tokenId,

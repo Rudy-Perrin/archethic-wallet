@@ -103,7 +103,7 @@ class _$NftCreationFormStateCopyWithImpl<$Res,
     Object? currentNftCategoryIndex = null,
     Object? indexTab = null,
     Object? feeEstimation = null,
-    Object? accountBalance = null,
+    Object? accountBalance = freezed,
     Object? file = freezed,
     Object? fileImportType = freezed,
     Object? fileDecoded = freezed,
@@ -141,7 +141,7 @@ class _$NftCreationFormStateCopyWithImpl<$Res,
           ? _value.feeEstimation
           : feeEstimation // ignore: cast_nullable_to_non_nullable
               as AsyncValue<double>,
-      accountBalance: null == accountBalance
+      accountBalance: freezed == accountBalance
           ? _value.accountBalance
           : accountBalance // ignore: cast_nullable_to_non_nullable
               as AccountBalance,
@@ -301,7 +301,7 @@ class __$$NftCreationFormStateImplCopyWithImpl<$Res>
     Object? currentNftCategoryIndex = null,
     Object? indexTab = null,
     Object? feeEstimation = null,
-    Object? accountBalance = null,
+    Object? accountBalance = freezed,
     Object? file = freezed,
     Object? fileImportType = freezed,
     Object? fileDecoded = freezed,
@@ -339,7 +339,7 @@ class __$$NftCreationFormStateImplCopyWithImpl<$Res>
           ? _value.feeEstimation
           : feeEstimation // ignore: cast_nullable_to_non_nullable
               as AsyncValue<double>,
-      accountBalance: null == accountBalance
+      accountBalance: freezed == accountBalance
           ? _value.accountBalance
           : accountBalance // ignore: cast_nullable_to_non_nullable
               as AccountBalance,
@@ -552,8 +552,8 @@ class _$NftCreationFormStateImpl extends _NftCreationFormState {
                 other.indexTab == indexTab) &&
             (identical(other.feeEstimation, feeEstimation) ||
                 other.feeEstimation == feeEstimation) &&
-            (identical(other.accountBalance, accountBalance) ||
-                other.accountBalance == accountBalance) &&
+            const DeepCollectionEquality()
+                .equals(other.accountBalance, accountBalance) &&
             const DeepCollectionEquality().equals(other._file, _file) &&
             (identical(other.fileImportType, fileImportType) ||
                 other.fileImportType == fileImportType) &&
@@ -599,7 +599,7 @@ class _$NftCreationFormStateImpl extends _NftCreationFormState {
         currentNftCategoryIndex,
         indexTab,
         feeEstimation,
-        accountBalance,
+        const DeepCollectionEquality().hash(accountBalance),
         const DeepCollectionEquality().hash(_file),
         fileImportType,
         const DeepCollectionEquality().hash(fileDecoded),

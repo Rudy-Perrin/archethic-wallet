@@ -1,5 +1,5 @@
 import 'package:aewallet/model/data/account_balance.dart';
-import 'package:aewallet/model/data/account_token.dart';
+import 'package:aewallet/domain/models/account_token.dart';
 import 'package:aewallet/model/data/contact.dart';
 import 'package:aewallet/model/primary_currency.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';

@@ -67,7 +67,7 @@ class _$AddTokenFormStateCopyWithImpl<$Res, $Val extends AddTokenFormState>
   $Res call({
     Object? addTokenProcessStep = null,
     Object? feeEstimation = null,
-    Object? accountBalance = null,
+    Object? accountBalance = freezed,
     Object? name = null,
     Object? symbol = null,
     Object? initialSupply = null,
@@ -85,7 +85,7 @@ class _$AddTokenFormStateCopyWithImpl<$Res, $Val extends AddTokenFormState>
           ? _value.feeEstimation
           : feeEstimation // ignore: cast_nullable_to_non_nullable
               as AsyncValue<double>,
-      accountBalance: null == accountBalance
+      accountBalance: freezed == accountBalance
           ? _value.accountBalance
           : accountBalance // ignore: cast_nullable_to_non_nullable
               as AccountBalance,
@@ -155,7 +155,7 @@ class __$$AddTokenFormStateImplCopyWithImpl<$Res>
   $Res call({
     Object? addTokenProcessStep = null,
     Object? feeEstimation = null,
-    Object? accountBalance = null,
+    Object? accountBalance = freezed,
     Object? name = null,
     Object? symbol = null,
     Object? initialSupply = null,
@@ -173,7 +173,7 @@ class __$$AddTokenFormStateImplCopyWithImpl<$Res>
           ? _value.feeEstimation
           : feeEstimation // ignore: cast_nullable_to_non_nullable
               as AsyncValue<double>,
-      accountBalance: null == accountBalance
+      accountBalance: freezed == accountBalance
           ? _value.accountBalance
           : accountBalance // ignore: cast_nullable_to_non_nullable
               as AccountBalance,
@@ -268,8 +268,8 @@ class _$AddTokenFormStateImpl extends _AddTokenFormState {
                 other.addTokenProcessStep == addTokenProcessStep) &&
             (identical(other.feeEstimation, feeEstimation) ||
                 other.feeEstimation == feeEstimation) &&
-            (identical(other.accountBalance, accountBalance) ||
-                other.accountBalance == accountBalance) &&
+            const DeepCollectionEquality()
+                .equals(other.accountBalance, accountBalance) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
             (identical(other.initialSupply, initialSupply) ||
@@ -289,7 +289,7 @@ class _$AddTokenFormStateImpl extends _AddTokenFormState {
       runtimeType,
       addTokenProcessStep,
       feeEstimation,
-      accountBalance,
+      const DeepCollectionEquality().hash(accountBalance),
       name,
       symbol,
       initialSupply,

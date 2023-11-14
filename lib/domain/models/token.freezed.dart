@@ -46,8 +46,6 @@ abstract class $TokenCopyWith<$Res> {
       String type,
       List<TokenProperty> properties,
       List<int> aeip});
-
-  $KeychainSecuredInfosCopyWith<$Res> get keychainSecuredInfos;
 }
 
 /// @nodoc
@@ -63,7 +61,7 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? keychainSecuredInfos = null,
+    Object? keychainSecuredInfos = freezed,
     Object? transactionLastAddress = null,
     Object? accountSelectedName = null,
     Object? name = null,
@@ -74,7 +72,7 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
     Object? aeip = null,
   }) {
     return _then(_value.copyWith(
-      keychainSecuredInfos: null == keychainSecuredInfos
+      keychainSecuredInfos: freezed == keychainSecuredInfos
           ? _value.keychainSecuredInfos
           : keychainSecuredInfos // ignore: cast_nullable_to_non_nullable
               as KeychainSecuredInfos,
@@ -112,15 +110,6 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
               as List<int>,
     ) as $Val);
   }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $KeychainSecuredInfosCopyWith<$Res> get keychainSecuredInfos {
-    return $KeychainSecuredInfosCopyWith<$Res>(_value.keychainSecuredInfos,
-        (value) {
-      return _then(_value.copyWith(keychainSecuredInfos: value) as $Val);
-    });
-  }
 }
 
 /// @nodoc
@@ -140,9 +129,6 @@ abstract class _$$TokenImplCopyWith<$Res> implements $TokenCopyWith<$Res> {
       String type,
       List<TokenProperty> properties,
       List<int> aeip});
-
-  @override
-  $KeychainSecuredInfosCopyWith<$Res> get keychainSecuredInfos;
 }
 
 /// @nodoc
@@ -156,7 +142,7 @@ class __$$TokenImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? keychainSecuredInfos = null,
+    Object? keychainSecuredInfos = freezed,
     Object? transactionLastAddress = null,
     Object? accountSelectedName = null,
     Object? name = null,
@@ -167,7 +153,7 @@ class __$$TokenImplCopyWithImpl<$Res>
     Object? aeip = null,
   }) {
     return _then(_$TokenImpl(
-      keychainSecuredInfos: null == keychainSecuredInfos
+      keychainSecuredInfos: freezed == keychainSecuredInfos
           ? _value.keychainSecuredInfos
           : keychainSecuredInfos // ignore: cast_nullable_to_non_nullable
               as KeychainSecuredInfos,
@@ -264,8 +250,8 @@ class _$TokenImpl extends _Token {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TokenImpl &&
-            (identical(other.keychainSecuredInfos, keychainSecuredInfos) ||
-                other.keychainSecuredInfos == keychainSecuredInfos) &&
+            const DeepCollectionEquality()
+                .equals(other.keychainSecuredInfos, keychainSecuredInfos) &&
             (identical(other.transactionLastAddress, transactionLastAddress) ||
                 other.transactionLastAddress == transactionLastAddress) &&
             (identical(other.accountSelectedName, accountSelectedName) ||
@@ -283,7 +269,7 @@ class _$TokenImpl extends _Token {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      keychainSecuredInfos,
+      const DeepCollectionEquality().hash(keychainSecuredInfos),
       transactionLastAddress,
       accountSelectedName,
       name,

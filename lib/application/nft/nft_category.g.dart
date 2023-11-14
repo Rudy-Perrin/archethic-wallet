@@ -197,7 +197,7 @@ class _FetchNftCategoryFamily extends Family<List<NftCategory>> {
   /// See also [_fetchNftCategory].
   _FetchNftCategoryProvider call({
     required BuildContext context,
-    required Account account,
+    required InvalidType account,
   }) {
     return _FetchNftCategoryProvider(
       context: context,
@@ -235,7 +235,7 @@ class _FetchNftCategoryProvider extends AutoDisposeProvider<List<NftCategory>> {
   /// See also [_fetchNftCategory].
   _FetchNftCategoryProvider({
     required BuildContext context,
-    required Account account,
+    required InvalidType account,
   }) : this._internal(
           (ref) => _fetchNftCategory(
             ref as _FetchNftCategoryRef,
@@ -267,7 +267,7 @@ class _FetchNftCategoryProvider extends AutoDisposeProvider<List<NftCategory>> {
   }) : super.internal();
 
   final BuildContext context;
-  final Account account;
+  final InvalidType account;
 
   @override
   Override overrideWith(
@@ -315,7 +315,7 @@ mixin _FetchNftCategoryRef on AutoDisposeProviderRef<List<NftCategory>> {
   BuildContext get context;
 
   /// The parameter `account` of this provider.
-  Account get account;
+  InvalidType get account;
 }
 
 class _FetchNftCategoryProviderElement
@@ -326,7 +326,7 @@ class _FetchNftCategoryProviderElement
   @override
   BuildContext get context => (origin as _FetchNftCategoryProvider).context;
   @override
-  Account get account => (origin as _FetchNftCategoryProvider).account;
+  InvalidType get account => (origin as _FetchNftCategoryProvider).account;
 }
 
 String _$getNbNFTInCategoryHash() =>
@@ -343,7 +343,7 @@ class _GetNbNFTInCategoryFamily extends Family<int> {
 
   /// See also [_getNbNFTInCategory].
   _GetNbNFTInCategoryProvider call({
-    required Account account,
+    required InvalidType account,
     required int categoryNftIndex,
   }) {
     return _GetNbNFTInCategoryProvider(
@@ -381,7 +381,7 @@ class _GetNbNFTInCategoryFamily extends Family<int> {
 class _GetNbNFTInCategoryProvider extends AutoDisposeProvider<int> {
   /// See also [_getNbNFTInCategory].
   _GetNbNFTInCategoryProvider({
-    required Account account,
+    required InvalidType account,
     required int categoryNftIndex,
   }) : this._internal(
           (ref) => _getNbNFTInCategory(
@@ -413,7 +413,7 @@ class _GetNbNFTInCategoryProvider extends AutoDisposeProvider<int> {
     required this.categoryNftIndex,
   }) : super.internal();
 
-  final Account account;
+  final InvalidType account;
   final int categoryNftIndex;
 
   @override
@@ -459,7 +459,7 @@ class _GetNbNFTInCategoryProvider extends AutoDisposeProvider<int> {
 
 mixin _GetNbNFTInCategoryRef on AutoDisposeProviderRef<int> {
   /// The parameter `account` of this provider.
-  Account get account;
+  InvalidType get account;
 
   /// The parameter `categoryNftIndex` of this provider.
   int get categoryNftIndex;
@@ -470,7 +470,7 @@ class _GetNbNFTInCategoryProviderElement extends AutoDisposeProviderElement<int>
   _GetNbNFTInCategoryProviderElement(super.provider);
 
   @override
-  Account get account => (origin as _GetNbNFTInCategoryProvider).account;
+  InvalidType get account => (origin as _GetNbNFTInCategoryProvider).account;
   @override
   int get categoryNftIndex =>
       (origin as _GetNbNFTInCategoryProvider).categoryNftIndex;

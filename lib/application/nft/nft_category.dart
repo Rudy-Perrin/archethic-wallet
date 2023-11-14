@@ -2,7 +2,7 @@
 
 import 'package:aewallet/application/account/providers.dart';
 import 'package:aewallet/model/data/account.dart';
-import 'package:aewallet/model/data/account_token.dart';
+import 'package:aewallet/domain/models/account_token.dart';
 import 'package:aewallet/model/data/nft_infos_off_chain.dart';
 import 'package:aewallet/model/nft_category.dart';
 import 'package:flutter/material.dart';

@@ -6,17 +6,20 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:aewallet/bus/transaction_send_event.dart';
+import 'package:aewallet/domain/models/app_wallet.dart';
 import 'package:aewallet/domain/repositories/transaction_validation_ratios.dart';
+import 'package:aewallet/infrastructure/datasources/hive_vault.dart';
 import 'package:aewallet/infrastructure/repositories/transaction/transaction_keychain_builder.dart';
 import 'package:aewallet/model/available_networks.dart';
 import 'package:aewallet/model/blockchain/keychain_secured_infos.dart';
 import 'package:aewallet/model/blockchain/keychain_secured_infos_service.dart';
+import 'package:aewallet/model/blockchain/keychain_service.dart';
 import 'package:aewallet/model/data/account.dart';
 import 'package:aewallet/model/data/account_balance.dart';
 import 'package:aewallet/model/data/appdb.dart';
 import 'package:aewallet/model/data/contact.dart';
 import 'package:aewallet/model/data/hive_app_wallet_dto.dart';
-import 'package:aewallet/model/keychain_service_keypair.dart';
+import 'package:aewallet/model/blockchain/keychain_service_keypair.dart';
 import 'package:aewallet/service/app_service.dart';
 import 'package:aewallet/util/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -210,31 +213,18 @@ class KeychainUtil with KeychainServiceMixin {
     );
   }
 
-  Future<HiveAppWalletDTO?> getListAccountsFromKeychain(
-    Keychain keychain,
-    HiveAppWalletDTO? appWallet, {
+  Future<List<KeychainService>> getListKeychainServicesFromKeychain(
+    AppWallet appWallet,
+    Keychain keychain, {
     bool loadBalance = true,
   }) async {
-    final accounts = List<Account>.empty(growable: true);
+    final keychainServices = <KeychainService>[];
 
-    HiveAppWalletDTO currentAppWallet;
     try {
-      /// Creation of a new appWallet
-      if (appWallet == null) {
-        final addressKeychain =
-            deriveAddress(uint8ListToHex(keychain.seed!), 0);
-        final lastTransactionMap =
-            await sl.get<ApiService>().getLastTransaction([addressKeychain]);
-
-        currentAppWallet = await sl.get<DBHelper>().createAppWallet(
-              lastTransactionMap[addressKeychain]!.address!.address!,
-            );
-      } else {
-        currentAppWallet = appWallet;
-      }
-
-      final selectedAccount =
-          await currentAppWallet.appKeychain.getAccountSelected();
+      final selectedKeychainService = appWallet.keychainServices.firstWhere(
+        (keychainService) => keychainService!.accountSelected == true,
+        orElse: () => null,
+      );
 
       final genesisAddressAccountList = <String>[];
       final lastAddressAccountList = <String>[];
@@ -253,25 +243,27 @@ class KeychainUtil with KeychainServiceMixin {
         genesisAddressAccountList.add(
           uint8ListToHex(genesisAddress),
         );
-        final account = Account(
-          lastLoadingTransactionInputs: DateTime.now().millisecondsSinceEpoch ~/
-              Duration.millisecondsPerSecond,
-          lastAddress: uint8ListToHex(genesisAddress),
-          genesisAddress: uint8ListToHex(genesisAddress),
+        var keychainService = KeychainService(
+          derivationPath: service.derivationPath,
+          curve: service.curve,
+          hashAlgo: service.hashAlgo,
+          accountLastLoadingTransactionInputs:
+              DateTime.now().millisecondsSinceEpoch ~/
+                  Duration.millisecondsPerSecond,
+          accountLastAddress: uint8ListToHex(genesisAddress),
+          accountGenesisAddress: uint8ListToHex(genesisAddress),
           name: name,
-          balance: AccountBalance(
-            nativeTokenName: '',
-            nativeTokenValue: 0,
-          ),
-          recentTransactions: [],
-          serviceType: serviceType,
+          accountBalanceNativeTokenName: '',
+          accountBalanceNativeTokenValue: 0,
+          accountRecentTransactions: [],
+          accountServiceType: serviceType,
         );
-        if (selectedAccount != null &&
-            selectedAccount.name == name &&
+        if (selectedKeychainService != null &&
+            selectedKeychainService.name == name &&
             serviceType == 'archethicWallet') {
-          account.selected = true;
+          keychainService = keychainService.copyWith(accountSelected: true);
         } else {
-          account.selected = false;
+          keychainService = keychainService.copyWith(accountSelected: false);
         }
 
         // Get offchain infos if exists locally
@@ -409,49 +401,26 @@ class KeychainUtil with KeychainServiceMixin {
 }
 
 extension KeychainConversionsExt on Keychain {
-  /// Convert Keychain model to KeychainSecuredInfos
-  KeychainSecuredInfos toKeychainSecuredInfos() {
-    final keychainSecuredInfosServiceMap =
-        <String, KeychainSecuredInfosService>{};
+  List<KeychainService> toKeychainServices() {
+    final keychainServices = <KeychainService>[];
+
     services.forEach((key, value) {
       final keyPair = deriveKeypair(key);
 
-      keychainSecuredInfosServiceMap[key] = KeychainSecuredInfosService(
-        curve: value.curve,
-        derivationPath: value.derivationPath,
-        hashAlgo: value.hashAlgo,
-        name: key,
-        keyPair: KeychainServiceKeyPair(
-          privateKey: keyPair.privateKey!,
-          publicKey: keyPair.publicKey!,
+      keychainServices.add(
+        KeychainService(
+          derivationPath: value.derivationPath,
+          name: key,
+          curve: value.curve,
+          hashAlgo: value.hashAlgo,
+          keyPair: KeychainServiceKeyPair(
+            privateKey: keyPair.privateKey!,
+            publicKey: keyPair.publicKey!,
+          ),
         ),
       );
     });
 
-    return KeychainSecuredInfos(
-      seed: seed!,
-      version: version,
-      services: keychainSecuredInfosServiceMap,
-    );
-  }
-}
-
-extension KeychainSecuredInfosConversionsExt on KeychainSecuredInfos {
-  /// Convert KeychainSecuredInfos model to Keychain
-  Keychain toKeychain() {
-    final keychainServices = <String, Service>{};
-    services.forEach((key, value) {
-      keychainServices[key] = Service(
-        curve: value.curve,
-        derivationPath: value.derivationPath,
-        hashAlgo: value.hashAlgo,
-      );
-    });
-
-    return Keychain(
-      seed: Uint8List.fromList(seed),
-      services: keychainServices,
-      version: version,
-    );
+    return keychainServices;
   }
 }
